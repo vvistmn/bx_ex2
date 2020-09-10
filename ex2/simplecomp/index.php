@@ -7,9 +7,9 @@ $APPLICATION->SetTitle("Простой компонент");
 	Array(
 		"CACHE_TIME" => "84600",
 		"CACHE_TYPE" => "A",
-		"CAT_IBLOCK_ID" => "",
-		"FIRM_IBLOCK_ID" => "",
-		"PROPERTY_CAT_CODE" => "",
+		"CAT_IBLOCK_ID" => "2",
+		"FIRM_IBLOCK_ID" => "6",
+		"PROPERTY_CAT_CODE" => "FIRM",
 		"TEMPLATE_DATEIL_LINK" => ""
 	)
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

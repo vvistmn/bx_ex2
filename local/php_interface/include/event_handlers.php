@@ -53,28 +53,28 @@ class ErrorPage404
 
 // [ex2-94] Супер инструмент SEO специалиста
 
-AddEventHandler("main", "OnPageStart", Array("IBlockMetatags", "OnPageStartHandler"));
+AddEventHandler("main", "OnPageStart", Array("IBlockMetatags", "onPageStartHandler"));
 class IBlockMetatags
 {
-    function OnPageStartHandler ()
+    function onPageStartHandler()
     {
         global $APPLICATION;
 
         $curPage = $APPLICATION->GetCurPage();
 
-        if (!CModule::IncludeModule("iblock")) {
+        if (!CModule::IncludeModule('iblock')) {
             return false;
         }
 
-        $filter = array("IBLOCK_ID" => 5, "NAME" => $curPage);
+        $filter = ['BLOCK_ID' => 5, "NAME" => $curPage];
 
         $select = array("ID", "PROPERTY_TITLE", "PROPERTY_DESCRIPTION");
 
-        $metatags = CIBlockElement::GetList(array(), $filter, false, false, $select);
+        $metaTags = CIBlockElement::GetList(array(), $filter, false, false, $select);
 
-        while ($metatag = $metatags->GetNext()) {
-            $APPLICATION->SetPageProperty("title", $metatag["PROPERTY_TITLE_VALUE"]);
-            $APPLICATION->SetPageProperty("description", $metatag["PROPERTY_DESCRIPTION_VALUE"]);
+        while ($metaTag = $metaTags->GetNext()) {
+            $APPLICATION->SetPageProperty("title", $metaTag["PROPERTY_TITLE_VALUE"]);
+            $APPLICATION->SetPageProperty("description", $metaTag["PROPERTY_DESCRIPTION_VALUE"]);
         }
     }
 }
