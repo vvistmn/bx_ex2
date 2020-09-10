@@ -23,6 +23,11 @@ $arComponentParameters = array(
             "NAME" => GetMessage("PROPERTY_CAT_CODE_NAME"),
             "TYPE" => "STRING",
         ),
+        "PAGE_NAVIGATION" => array(
+            "PARENT" => "BASE",
+            "NAME" => GetMessage("PAG_NAVIGATION_NAME"),
+            "TYPE" => "STRING",
+        ),
         "CACHE_TIME" => array("DEFAULT" => 84600),
     ),
 );

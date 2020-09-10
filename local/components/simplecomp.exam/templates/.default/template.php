@@ -15,3 +15,4 @@
     </ul>
     <?endforeach;?>
 </ul>
+<?=$arResult['NAV_STRING'];?>

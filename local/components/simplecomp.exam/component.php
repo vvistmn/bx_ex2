@@ -4,10 +4,19 @@
 if (!CModule::IncludeModule('iblock')) {
     return false;
 }
+// [ex2-60] Добавить постраничную навигацию в созданный простой компонент
+$arParams["PAGE_NAVIGATION"] = intval($arParams["PAGE_NAVIGATION"]);
+$arParams["PAGER_TITLE"] = "Странички";
+$arParams["PAGER_SHOW_ALL"] = "Y";
+$arNavParams = array(
+    "nPageSize" => $arParams['PAGE_NAVIGATION'],
+    "bShowAll"  => $arParams["PAGER_SHOW_ALL"],
+);
+$arNavigation = CDBResult::GetNavParams($arNavParams);
+// [ex2-60] Добавить постраничную навигацию в созданный простой компонент
 
 global $USER;
-
-if ($this->StartResultCache($arParams['CACHE_TIME'])) {
+if ($this->StartResultCache($arParams["CACHE_TIME"], [$USER->GetGroups(), $arNavigation])) {
     $arResult['FIRM'] = [];
     $firmCount = [];
 
@@ -33,7 +42,18 @@ if ($this->StartResultCache($arParams['CACHE_TIME'])) {
         'ACTIVE' => 'Y' ];
 
     $selectFirms = ['ID', 'NAME'];
-    $firmsList = CIBlockElement::GetList([], $filterFirms, false, false, $selectFirms);
+
+    $firmsList = CIBlockElement::GetList([], $filterFirms, false, $arNavParams, $selectFirms);
+
+    // [ex2-60] Добавить постраничную навигацию в созданный простой компонент
+    $arResult["NAV_STRING"] = $firmsList->GetPageNavStringEx(
+        $navComponentObject,
+        $arParams["PAGER_TITLE"],
+        " ",
+        $arParams["PAGER_SHOW_ALL"]
+    );
+    // [ex2-60] Добавить постраничную навигацию в созданный простой компонент
+
     while ($firm = $firmsList->GetNext()) {
 // [ex2-58] Добавить управление элементами – «Эрмитаж» в созданный простой компонент «Каталог товаров»
         $arButtons = CIBlock::GetPanelButtons(
@@ -46,6 +66,7 @@ if ($this->StartResultCache($arParams['CACHE_TIME'])) {
         $firm['ADD_LINK'] = $arButtons["edit"]["add_element"]["ACTION_URL"];
         $firm["EDIT_LINK"] = $arButtons["edit"]["edit_element"]["ACTION_URL"];
         $firm["DELETE_LINK"] = $arButtons["edit"]["delete_element"]["ACTION_URL"];
+
         $firm['ADD_LINK_TEXT'] = $arButtons["edit"]["add_element"]["TEXT"];
         $firm["EDIT_LINK_TEXT"] = $arButtons["edit"]["edit_element"]["TEXT"];
         $firm["DELETE_LINK_TEXT"] = $arButtons["edit"]["delete_element"]["TEXT"];
